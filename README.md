@@ -29,8 +29,6 @@ These instructions will get you a copy of the project up and running on your loc
     cd cross-skilling
     ```
 
-**TIP:** If you type `cd cf` then hit tab you can cycle through all of the folders you can access from your location that start with `cf`
-
 5. **Checkout main and ensure it's up to date.**
 
     ```
