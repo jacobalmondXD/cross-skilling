@@ -1,0 +1,19 @@
+{
+  "name": "cross-skilling",
+  "version": "1.0.0",
+  "description": "Repo for cross-skilling into automation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacobalmondXD/cross-skilling.git"
+  },
+  "author": "Jacob Almond",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jacobalmondXD/cross-skilling/issues"
+  },
+  "homepage": "https://github.com/jacobalmondXD/cross-skilling#readme"
+}
