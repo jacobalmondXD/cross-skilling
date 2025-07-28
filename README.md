@@ -112,3 +112,53 @@ npm i
 ```
 npx cypress open
 ```
+
+## Setting up credentials in cypress.env.json
+
+To run tests that require authentication, you need to provide a valid username and password in your `cypress.env.json` file.
+
+1. Visit [https://www.saucedemo.com/](https://www.saucedemo.com/) in your web browser.
+2. The homepage displays valid username and password values you can use for testing.
+3. Open the `cypress.env.json` file in the root of this project.
+4. Replace the default values for `username` and `password` with your chosen credentials. For example:
+
+   ```json
+   {
+     "username": "a_valid_username",
+     "password": "a_valid_password"
+   }
+   ```
+
+Replace the values with any valid credentials shown on the Sauce Demo homepage.
+
+## How to run tests
+
+You can run your Cypress tests in two main ways:
+
+### 1. Using the Cypress UI
+
+After running:
+
+```
+npx cypress open
+```
+
+The Cypress Test Runner UI will appear. From here, you can select and run any individual spec file by clicking on it.
+
+### 2. Running an individual spec file from the command line
+
+You can run a specific test file in either headed (UI) or headless mode using the following commands:
+
+**Headed (UI) mode:**
+
+```
+npx cypress run --spec "cypress/e2e/<your-spec-file>.cy.js" --headed
+```
+
+**Headless mode:**
+
+```
+npx cypress run --spec "cypress/e2e/<your-spec-file>.cy.js"
+```
+
+Replace `<your-spec-file>.cy.js` with the actual filename of the spec you want to run.
