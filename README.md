@@ -45,7 +45,7 @@ These instructions will get you a copy of the project up and running on your loc
 npm is the default package manager for Node.js and is essential for developing with JavaScript. It installs, updates and removes your packages (code libraries, or sometimes called modules), handles the dependencies
 between those packages and looks after versioning of said packages. You can even add to the existing registry to make your own reusable packages you can share with others.
 
-For our purposes we'll be using npm to install playwright locally and use it in the repo.
+For our purposes we'll be using npm to install Cypress locally and use it in the repo.
 
 **Installing Node.js**
 
@@ -128,6 +128,7 @@ To run tests that require authentication, you need to provide a valid username a
      "password": "a_valid_password"
    }
    ```
+5. Save the `cypress.env.json` file
 
 Replace the values with any valid credentials shown on the Sauce Demo homepage.
 
@@ -143,7 +144,11 @@ After running:
 npx cypress open
 ```
 
-The Cypress Test Runner UI will appear. From here, you can select and run any individual spec file by clicking on it.
+The Cypress Test Runner UI will appear. From here, you can select and run any individual spec file by clicking on it. 
+
+**Notes:**
+- All tests appear in the **E2E Testing** section of Cypress
+- You'll need to select a Browser to execute the tests in first (e.g. Chrome or Electron)
 
 ### 2. Running an individual spec file from the command line
 
