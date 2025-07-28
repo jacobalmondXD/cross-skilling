@@ -1,11 +1,12 @@
 # cross-skilling
 
+> ✅ GitHub Copilot integration is functioning correctly with this repository.
+
 This repository serves as a personal cross-skilling project dedicated to learning test automation using Cypress.io. It will house various examples and exercises as I explore Cypress's capabilities for web application testing. 🧪
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
 
 ### Cloning the Repository
 
@@ -19,27 +20,27 @@ These instructions will get you a copy of the project up and running on your loc
 
 3. **Use the git clone command followed by the repo url.** For this repo that would be:
 
-    ```
-    git clone https://github.com/jacobalmondXD/cross-skilling.git
-    ```
+   ```
+   git clone https://github.com/jacobalmondXD/cross-skilling.git
+   ```
 
 4. **Following the succesful clone, ensure you are in the repo root folder.** You can use the `cd` command again, for this repo it would be:
 
-    ```
-    cd cross-skilling
-    ```
+   ```
+   cd cross-skilling
+   ```
 
 5. **Checkout main and ensure it's up to date.**
 
-    ```
-    git checkout main
-    ```
+   ```
+   git checkout main
+   ```
 
-    followed by
+   followed by
 
-    ```
-    git pull
-    ```
+   ```
+   git pull
+   ```
 
 ## Node Package Manager (npm)
 
@@ -51,7 +52,7 @@ For our purposes we'll be using npm to install playwright locally and use it in 
 **Installing Node.js**
 
 First, check if you have node.js install already (there's a good chance you do). First open up a terminal window, or use the terminal in your chosen IDE.
-On a mac you can press Command+SPacebar and then type `terminal` to quickly and easily open an instance. 
+On a mac you can press Command+Spacebar and then type `terminal` to quickly and easily open an instance.
 
 In terminal use the node version command to check if you have node install already:
 
@@ -86,15 +87,13 @@ brew install node
 
 Then run the `node -v` commands as above to verify the install.
 
-
 **Other handy tools:**
 
 nvm (Node Version Manager): nvm is a tool that allows you to manage multiple versions of Node.js on your system. This is useful if you need to work with different Node.js versions for different projects. You can find instructions on how to install and use nvm on its GitHub page: https://github.com/nvm-sh/nvm
 
 That's it! You've successfully set up npm on your Mac and can now start using it to manage packages for your JavaScript projects.
 
-
-**Possible error at runtime:** 
+**Possible error at runtime:**
 
 If you have an issue where you recieve an error of `Error: Cannot find module 'dotenv'`, to resolve this simply run:
 
@@ -111,6 +110,7 @@ npm i
 ```
 
 **Executing Cypress**
+
 ```
 npx cypress open
 ```
