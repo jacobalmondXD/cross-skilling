@@ -128,6 +128,7 @@ To run tests that require authentication, you need to provide a valid username a
      "password": "a_valid_password"
    }
    ```
+
 5. Save the `cypress.env.json` file
 
 Replace the values with any valid credentials shown on the Sauce Demo homepage.
@@ -144,13 +145,22 @@ After running:
 npx cypress open
 ```
 
-The Cypress Test Runner UI will appear. From here, you can select and run any individual spec file by clicking on it. 
+The Cypress Test Runner UI will appear. From here, you can select and run any individual spec file by clicking on it.
 
 **Notes:**
+
 - All tests appear in the **E2E Testing** section of Cypress
 - You'll need to select a Browser to execute the tests in first (e.g. Chrome or Electron)
 
-### 2. Running an individual spec file from the command line
+### 2. Running all test specs from the command line
+
+You can run all of the Cypress tests (those defined in `cypress.config.js`) via the command line with the following command:
+
+```
+npx cypress run
+```
+
+### 3. Running an individual spec file from the command line
 
 You can run a specific test file in either headed (UI) or headless mode using the following commands:
 
