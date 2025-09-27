@@ -5,7 +5,7 @@ import LoginPage from "../pages/LoginPage";
 
 describe("Login Page tests", () => {
   beforeEach(() => {
-    cy.visit("https://www.saucedemo.com/");
+    cy.visit("/");
   });
 
   it("checks username and password fields are present", () => {
