@@ -14,5 +14,12 @@ class LoginPage {
   get loginButton() {
     return cy.get("[data-test='login-button']");
   }
+
+  // Actions
+  login(username: string, password: string) {
+    this.userNameInput.type(username);
+    this.passwordInput.type(password);
+    this.loginButton.click();
+  }
 }
 export default new LoginPage();

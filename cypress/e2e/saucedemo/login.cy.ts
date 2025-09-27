@@ -14,9 +14,6 @@ describe("Login Page tests", () => {
   });
 
   it("logs in with valid credentials", () => {
-    LoginPage.userNameInput.type(username).should("have.value", username);
-    LoginPage.passwordInput.type(password).should("have.value", password);
-
-    LoginPage.loginButton.click();
+    LoginPage.login(username, password);
   });
 });
