@@ -1,8 +1,8 @@
 const username = Cypress.env("username");
 const password = Cypress.env("password");
 
-import LoginPage from "../pages/LoginPage";
-import InventoryPage from "../pages/InventoryPage";
+import LoginPage from "../saucedemo/pages/LoginPage";
+import InventoryPage from "../saucedemo/pages/InventoryPage";
 
 describe("Login Page tests", () => {
   beforeEach(() => {

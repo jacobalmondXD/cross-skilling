@@ -1,6 +1,6 @@
 const username = Cypress.env("username");
 
-import InventoryPage from "../pages/InventoryPage";
+import InventoryPage from "../saucedemo/pages/InventoryPage";
 
 describe("Login Page tests", () => {
   beforeEach(() => {
