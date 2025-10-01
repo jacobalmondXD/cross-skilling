@@ -14,10 +14,15 @@ Then("the username and password fields should be visible", () => {
   LoginPage.passwordInput.should("be.visible");
 });
 
-When("I log in with valid credentials", () => {
-  LoginPage.login(username, password);
+When("I enter valid credentials", () => {
+  LoginPage.typeUserName(username);
+  LoginPage.typePassword(password);
 });
 
-Then("I should be redirected to the inventory page", () => {
+When("I click the Login button", () => {
+  LoginPage.clickLoginButton();
+});
+
+Then("I should be redirected to the product catalog page", () => {
   InventoryPage.inventorySection.should("be.visible");
 });

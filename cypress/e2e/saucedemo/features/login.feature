@@ -1,9 +1,10 @@
 # filepath: cypress/e2e/saucedemo/features/login.feature
 @login
 Feature: User Login
-  As a user
-  I want to log in to the SauceDemo site
-  So that I can access the inventory
+As a returning user 
+I want to securely log in to the SauceDemo website 
+So that I can access the product catalog 
+And proceed with my shopping experience.
 
   Background:
     Given I am on the login page
@@ -12,5 +13,6 @@ Feature: User Login
     Then the username and password fields should be visible
 
   Scenario: Successful login with valid credentials
-    When I log in with valid credentials
-    Then I should be redirected to the inventory page
+    When I enter valid credentials
+    And I click the Login button 
+    Then I should be redirected to the product catalog page

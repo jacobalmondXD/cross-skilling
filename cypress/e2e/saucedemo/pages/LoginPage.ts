@@ -21,5 +21,17 @@ class LoginPage {
     this.passwordInput.type(password);
     this.loginButton.click();
   }
+
+  typeUserName(username: string) {
+    this.userNameInput.type(username);
+  }
+
+  typePassword(password: string) {
+    this.passwordInput.type(password);
+  }
+
+  clickLoginButton() {
+    this.loginButton.click();
+  }
 }
 export default new LoginPage();

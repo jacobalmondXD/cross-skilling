@@ -18,7 +18,7 @@ export default defineConfig({
       },
     },
     async setupNodeEvents(on, config) {
-      // implement node event listeners hereπ
+      // implement node event listeners here
       // Add the Cucumber preprocessor plugin
       await addCucumberPreprocessorPlugin(on, config);
 
