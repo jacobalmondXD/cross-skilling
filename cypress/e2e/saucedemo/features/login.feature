@@ -1,4 +1,3 @@
-# filepath: cypress/e2e/saucedemo/features/login.feature
 @login
 Feature: User Login
 As a returning user 
@@ -16,3 +15,4 @@ And proceed with my shopping experience.
     When I enter valid credentials
     And I click the Login button 
     Then I should be redirected to the product catalog page
+    And I should see the product listings

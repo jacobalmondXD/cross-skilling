@@ -2,7 +2,7 @@ const username = Cypress.env("username");
 const password = Cypress.env("password");
 
 import LoginPage from "../saucedemo/pages/LoginPage";
-import InventoryPage from "../saucedemo/pages/InventoryPage";
+import ProductPage from "../saucedemo/pages/ProductPage";
 
 describe("Login Page tests", () => {
   beforeEach(() => {
@@ -14,8 +14,8 @@ describe("Login Page tests", () => {
     LoginPage.passwordInput.should("exist");
   });
 
-  it("logs in with valid credentials, inventory page is shown", () => {
+  it("logs in with valid credentials, product page is shown", () => {
     LoginPage.login(username, password);
-    InventoryPage.inventorySection.should("exist");
+    ProductPage.productTitle.should("have.text", "Products");
   });
 });

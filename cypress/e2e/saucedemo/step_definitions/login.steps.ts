@@ -1,6 +1,6 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import LoginPage from "../pages/LoginPage";
-import InventoryPage from "../pages/InventoryPage";
+import ProductPage from "../pages/ProductPage";
 
 const username = Cypress.env("username");
 const password = Cypress.env("password");
@@ -24,5 +24,9 @@ When("I click the Login button", () => {
 });
 
 Then("I should be redirected to the product catalog page", () => {
-  InventoryPage.inventorySection.should("be.visible");
+  ProductPage.productTitle.should("have.text", "Products");
+});
+
+Then("I should see the product listings", () => {
+  ProductPage.productListings.should("be.visible");
 });

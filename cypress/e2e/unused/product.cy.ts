@@ -1,6 +1,6 @@
 const username = Cypress.env("username");
 
-import InventoryPage from "../saucedemo/pages/InventoryPage";
+import ProductPage from "../saucedemo/pages/ProductPage";
 
 describe("Login Page tests", () => {
   beforeEach(() => {
@@ -8,7 +8,7 @@ describe("Login Page tests", () => {
     cy.visit("/inventory.html", { failOnStatusCode: false });
   });
 
-  it("checks inventory page is shown", () => {
-    InventoryPage.inventorySection.should("exist");
+  it("checks product page is shown", () => {
+    ProductPage.productTitle.should("have.text", "Products");
   });
 });
