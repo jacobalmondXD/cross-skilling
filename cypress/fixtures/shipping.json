@@ -1,0 +1,12 @@
+{
+  "personOne": {
+    "firstName": "John",
+    "lastName": "Smith",
+    "postalCode": "AB12 1AB"
+  },
+  "personTwo": {
+    "firstName": "Tracey",
+    "lastName": "Jones",
+    "postalCode": "CD34 3CD"
+  }
+}
