@@ -15,6 +15,8 @@ Then("the username and password fields should be visible", () => {
 });
 
 When("I enter valid credentials", () => {
+  expect(username, "Username env var must be defined").to.not.be.undefined;
+  expect(password, "Password env var must be defined").to.not.be.undefined;
   LoginPage.typeUserName(username);
   LoginPage.typePassword(password);
 });
@@ -24,6 +26,7 @@ When("I click the Login button", () => {
 });
 
 Then("I should be redirected to the product catalog page", () => {
+  cy.url().should("eq", Cypress.config("baseUrl") + "inventory.html");
   ProductPage.productTitle.should("have.text", "Products");
 });
 

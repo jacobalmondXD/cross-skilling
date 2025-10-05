@@ -25,6 +25,7 @@ When("I click the shopping cart icon", () => {
 });
 
 Then("I should be navigated to the Your Cart page", () => {
+  cy.url().should("eq", Cypress.config("baseUrl") + "cart.html");
   CartPage.cartTitle.should("have.text", "Your Cart");
 });
 
@@ -37,6 +38,7 @@ When("I click the Checkout button", () => {
 });
 
 Then("I should be navigated to the Checkout: Your Information page", () => {
+  cy.url().should("eq", Cypress.config("baseUrl") + "checkout-step-one.html");
   CheckoutInformationPage.checkoutInformationTitle.should(
     "have.text",
     "Checkout: Your Information"
@@ -54,6 +56,7 @@ When("I click the Continue button", () => {
 });
 
 Then("I should be navigated to the Checkout: Overview page", () => {
+  cy.url().should("eq", Cypress.config("baseUrl") + "checkout-step-two.html");
   CheckoutOverviewPage.checkoutOverviewTitle.should(
     "have.text",
     "Checkout: Overview"
@@ -77,6 +80,7 @@ When("I click the Finish button", () => {
 });
 
 Then("I should be navigated to the Checkout: Complete page", () => {
+  cy.url().should("eq", Cypress.config("baseUrl") + "checkout-complete.html");
   CheckoutCompletePage.checkoutCompleteTitle.should(
     "have.text",
     "Checkout: Complete!"
