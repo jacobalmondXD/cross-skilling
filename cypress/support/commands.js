@@ -11,7 +11,9 @@
 //
 // -- This is a parent command --
 Cypress.Commands.add("login", (username) => {
-  cy.setCookie("session-username", username);
+  cy.session(`user-${username}`, () => {
+    cy.setCookie("session-username", username);
+  });
 });
 //
 // -- This is a child command --
