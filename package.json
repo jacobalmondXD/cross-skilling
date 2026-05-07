@@ -26,6 +26,9 @@
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,
-    "stepDefinitions": "cypress/e2e/saucedemo/step_definitions/**/*.{js,ts}"
+    "stepDefinitions": [
+      "cypress/e2e/saucedemo/step_definitions/**/*.{js,ts}",
+      "cypress/e2e/jsonplaceholder/step_definitions/**/*.{js,ts}"
+    ]
   }
 }

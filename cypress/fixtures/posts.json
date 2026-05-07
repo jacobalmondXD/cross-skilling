@@ -1,0 +1,23 @@
+{
+  "newPost": {
+    "title": "Cypress API Testing",
+    "body": "Learning Focus 3"
+  },
+  "filteredPosts": {
+    "userId": 1,
+    "postCount": 10
+  },
+  "replacedPost": {
+    "postId": 1,
+    "title": "Brand New Post",
+    "body": "This replaces all",
+    "userId": 5
+  },
+  "patchedPost": {
+    "postId": 1,
+    "title": "Patched Title"
+  },
+  "deletedPost": {
+    "postId": 1
+  }
+}

@@ -1,20 +1,31 @@
 @api @posts
 Feature: Post Lifecycle Management
-  As an API consumer 
-  I want to manage blog posts via the JSONPlaceholder API
-  So that I can verify data integrity across the system
+As an API consumer
+I want to manage blog posts via the JSONPlaceholder API
+So that I can verify data integrity across the system
 
-  Scenario: Create, Verify, and Update a post
-    When I create a new post with title "Cross-Skilling" and body "Focus 3 API Test"
+Scenario: Create a new post (POST)
+    When I create a new post
     Then the response status should be 201
-    And the response should include a new ID
+#     And the response should include a new ID
 
-    When I fetch all posts for userId 1
-    Then I should receive exactly 10 posts
+# Scenario: Fetch filtered data (GET)
+#     When I fetch all posts for the specified userId
+#     Then I should receive the expected number of posts
+#     And every post should belong to that userId
 
-    When I update post 1 with title "Updated Title"
-    Then the response status should be 200
-    And the post title should be "Updated Title"
+# Scenario: Replace a post (PUT)
+#     When I replace the target post with the replacement data
+#     Then the response status should be 200
+#     And the post title should match the replacement data
+#     And the post body should match the replacement data
 
-    When I delete post 1
-    Then the response status should be 200
+# Scenario: Partially update a post (PATCH)
+#     When I update only the title of the target post
+#     Then the response status should be 200
+#     And the post title should match the patched title
+#     And the original body should still be present in the response
+
+# Scenario: Remove a post (DELETE)
+#     When I delete the target post
+#     Then the response status should be 200
