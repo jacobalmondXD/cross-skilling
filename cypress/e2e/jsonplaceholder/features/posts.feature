@@ -7,12 +7,12 @@ So that I can verify data integrity across the system
 Scenario: Create a new post (POST)
     When I create a new post
     Then the response status should be 201
-#     And the response should include a new ID
+    And the ID in the response should be 101
 
-# Scenario: Fetch filtered data (GET)
-#     When I fetch all posts for the specified userId
-#     Then I should receive the expected number of posts
-#     And every post should belong to that userId
+Scenario: Fetch filtered data (GET)
+    When I fetch all posts for userId 1
+    Then I should receive 10 posts
+    And every post should belong to userId 1
 
 # Scenario: Replace a post (PUT)
 #     When I replace the target post with the replacement data
