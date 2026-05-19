@@ -9,6 +9,7 @@ let lastResponse: Cypress.Response<any>;
 interface NewPost {
   title: string;
   body: string;
+  userId: number;
 }
 
 interface PostsData {
@@ -25,9 +26,11 @@ before(() => {
 
 When("I create a new post", () => {
   const { newPost } = postsData;
-  PostService.createPost(newPost.title, newPost.body).then((response) => {
-    lastResponse = response;
-  });
+  PostService.createPost(newPost.title, newPost.body, newPost.userId).then(
+    (response) => {
+      lastResponse = response;
+    },
+  );
 });
 
 Then("the response status should be {int}", (statusCode: number) => {

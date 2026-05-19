@@ -1,7 +1,8 @@
 {
   "newPost": {
     "title": "Cypress API Testing",
-    "body": "Learning Focus 3"
+    "body": "Learning Focus 3",
+    "userId": 1
   },
   "replacePost": {
     "postId": 1,
