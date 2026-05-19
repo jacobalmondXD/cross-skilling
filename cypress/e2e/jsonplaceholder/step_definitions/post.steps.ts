@@ -41,12 +41,7 @@ Then("the ID in the response should be {int}", (expectedID: number) => {
   expect(lastResponse.body).to.have.property("id", expectedID);
 });
 
-// TODO (Best Practice): lastUserId is assigned here but never read — the downstream Then step
-// receives userId directly as a Cucumber parameter. This variable is dead code and can be removed.
-let lastUserId: number;
-
 When("I fetch all posts for userId {int}", (userId: number) => {
-  lastUserId = userId;
   PostService.getPostsByUserId(userId).then((response) => {
     lastResponse = response;
   });
