@@ -29,6 +29,16 @@ class PostService {
     });
   }
 
+  patchPost(postId: number, title: string) {
+    return cy.request({
+      method: "PATCH",
+      url: `${this.baseUrl}/posts/${postId}`,
+      body: {
+        title,
+      },
+    });
+  }
+
   getPostsByUserId(userId: number) {
     return cy.request({
       method: "GET",

@@ -20,11 +20,11 @@ Scenario: Replace a post (PUT)
     And the post title should match the replacement data
     And the post body should match the replacement data
 
-# Scenario: Partially update a post (PATCH)
-#     When I update only the title of the target post
-#     Then the response status should be 200
-#     And the post title should match the patched title
-#     And the original body should still be present in the response
+ Scenario: Partially update a post (PATCH)
+    When I update only the title of the target post
+    Then the response status should be 200
+    And the post title should match the patched title
+    And the original body should still be present in the response
 
 # Scenario: Remove a post (DELETE)
 #     When I delete the target post

@@ -14,9 +14,16 @@ interface ReplacePost {
   userId: number;
 }
 
+interface PatchPost {
+  postId: number;
+  title: string;
+  body: string;
+}
+
 interface PostsData {
   newPost: NewPost;
   replacePost: ReplacePost;
+  patchPost: PatchPost;
 }
 
 Before(() => {
@@ -95,6 +102,35 @@ Then("the post body should match the replacement data", function () {
     cy.get("@postsData").then((postsData: any) => {
       const { replacePost } = postsData as PostsData;
       expect(lastResponse.body).to.have.property("body", replacePost.body);
+    });
+  });
+});
+
+When("I update only the title of the target post", function () {
+  cy.get("@postsData").then((postsData: any) => {
+    const { patchPost } = postsData as PostsData;
+    PostService.patchPost(patchPost.postId, patchPost.title).then(
+      (response) => {
+        cy.wrap(response).as("lastResponse");
+      },
+    );
+  });
+});
+
+Then("the post title should match the patched title", function () {
+  cy.get("@lastResponse").then((lastResponse: any) => {
+    cy.get("@postsData").then((postsData: any) => {
+      const { patchPost } = postsData as PostsData;
+      expect(lastResponse.body).to.have.property("title", patchPost.title);
+    });
+  });
+});
+
+Then("the original body should still be present in the response", function () {
+  cy.get("@lastResponse").then((lastResponse: any) => {
+    cy.get("@postsData").then((postsData: any) => {
+      const { patchPost } = postsData as PostsData;
+      expect(lastResponse.body).to.have.property("body", patchPost.body);
     });
   });
 });
