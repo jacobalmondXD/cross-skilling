@@ -39,6 +39,20 @@ class PostService {
     });
   }
 
+  deletePost(postId: number) {
+    return cy.request({
+      method: "DELETE",
+      url: `${this.baseUrl}/posts/${postId}`,
+    });
+  }
+
+  getPostById(postId: number) {
+    return cy.request({
+      method: "GET",
+      url: `${this.baseUrl}/posts/${postId}`,
+    });
+  }
+
   getPostsByUserId(userId: number) {
     return cy.request({
       method: "GET",
