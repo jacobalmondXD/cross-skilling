@@ -17,6 +17,18 @@ class PostService {
     });
   }
 
+  replacePost(postId: number, title: string, body: string, userId: number) {
+    return cy.request({
+      method: "PUT",
+      url: `${this.baseUrl}/posts/${postId}`,
+      body: {
+        title,
+        body,
+        userId,
+      },
+    });
+  }
+
   getPostsByUserId(userId: number) {
     return cy.request({
       method: "GET",

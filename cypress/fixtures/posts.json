@@ -6,7 +6,7 @@
   },
   "replacePost": {
     "postId": 1,
-    "title": "Brand New Post",
+    "title": "Updating a Post",
     "body": "This replaces all",
     "userId": 5
   },

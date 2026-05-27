@@ -14,11 +14,11 @@ Scenario: Fetch filtered data (GET)
     Then I should receive 10 posts
     And every post should belong to userId 1
 
-# Scenario: Replace a post (PUT)
-#     When I replace the target post with the replacement data
-#     Then the response status should be 200
-#     And the post title should match the replacement data
-#     And the post body should match the replacement data
+Scenario: Replace a post (PUT)
+    When I replace the target post with replacement data
+    Then the response status should be 200
+    And the post title should match the replacement data
+    And the post body should match the replacement data
 
 # Scenario: Partially update a post (PATCH)
 #     When I update only the title of the target post

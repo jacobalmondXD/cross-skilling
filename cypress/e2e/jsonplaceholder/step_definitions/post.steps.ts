@@ -1,10 +1,5 @@
-import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { When, Then, Before } from "@badeball/cypress-cucumber-preprocessor";
 import PostService from "../services/PostService";
-
-// TODO (Best Practice): Storing response in a module-level variable shares state across scenarios.
-// Consider using a Cypress alias instead (e.g. cy.wrap(response).as('lastResponse') and cy.get('@lastResponse'))
-// so that response state is naturally scoped to each individual scenario.
-let lastResponse: Cypress.Response<any>;
 
 interface NewPost {
   title: string;
@@ -12,48 +7,94 @@ interface NewPost {
   userId: number;
 }
 
-interface PostsData {
-  newPost: NewPost;
+interface ReplacePost {
+  postId: number;
+  title: string;
+  body: string;
+  userId: number;
 }
 
-let postsData: PostsData;
+interface PostsData {
+  newPost: NewPost;
+  replacePost: ReplacePost;
+}
 
-before(() => {
-  cy.fixture("posts.json").then((data) => {
-    postsData = data;
-  });
+Before(() => {
+  cy.fixture("posts.json").as("postsData");
 });
 
 When("I create a new post", () => {
-  const { newPost } = postsData;
-  PostService.createPost(newPost.title, newPost.body, newPost.userId).then(
-    (response) => {
-      lastResponse = response;
-    },
-  );
+  cy.get("@postsData").then((postsData: any) => {
+    const { newPost } = postsData as PostsData;
+    PostService.createPost(newPost.title, newPost.body, newPost.userId).then(
+      (response) => {
+        cy.wrap(response).as("lastResponse");
+      },
+    );
+  });
 });
 
 Then("the response status should be {int}", (statusCode: number) => {
-  expect(lastResponse.status).to.eq(statusCode);
+  cy.get("@lastResponse").then((lastResponse: any) => {
+    expect(lastResponse.status).to.eq(statusCode);
+  });
 });
 
 Then("the ID in the response should be {int}", (expectedID: number) => {
-  expect(lastResponse.body).to.have.property("id", expectedID);
+  cy.get("@lastResponse").then((lastResponse: any) => {
+    expect(lastResponse.body.id).to.eq(expectedID);
+  });
 });
 
 When("I fetch all posts for userId {int}", (userId: number) => {
   PostService.getPostsByUserId(userId).then((response) => {
-    lastResponse = response;
+    cy.wrap(response).as("lastResponse");
   });
 });
 
 Then("I should receive {int} posts", (expectedCount: number) => {
-  expect(lastResponse.status).to.eq(200);
-  expect(lastResponse.body).to.be.an("array").with.lengthOf(expectedCount);
+  cy.get("@lastResponse").then((lastResponse: any) => {
+    expect(lastResponse.status).to.eq(200);
+    expect(lastResponse.body).to.be.an("array").with.lengthOf(expectedCount);
+  });
 });
 
 Then("every post should belong to userId {int}", (userId: number) => {
-  lastResponse.body.forEach((post: { userId: number }) => {
-    expect(post.userId).to.eq(userId);
+  cy.get("@lastResponse").then((lastResponse: any) => {
+    lastResponse.body.forEach((post: { userId: number }) => {
+      expect(post.userId).to.eq(userId);
+    });
+  });
+});
+
+When("I replace the target post with replacement data", function () {
+  cy.get("@postsData").then((postsData: any) => {
+    const { replacePost } = postsData as PostsData;
+    PostService.replacePost(
+      replacePost.postId,
+      replacePost.title,
+      replacePost.body,
+      replacePost.userId,
+    ).then((response) => {
+      cy.wrap(response).as("lastResponse");
+    });
+  });
+});
+
+Then("the post title should match the replacement data", function () {
+  cy.get("@lastResponse").then((lastResponse: any) => {
+    cy.get("@postsData").then((postsData: any) => {
+      const { replacePost } = postsData as PostsData;
+      expect(lastResponse.body).to.have.property("title", replacePost.title);
+    });
+  });
+});
+
+Then("the post body should match the replacement data", function () {
+  cy.get("@lastResponse").then((lastResponse: any) => {
+    cy.get("@postsData").then((postsData: any) => {
+      const { replacePost } = postsData as PostsData;
+      expect(lastResponse.body).to.have.property("body", replacePost.body);
+    });
   });
 });
