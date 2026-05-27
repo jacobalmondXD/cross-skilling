@@ -28,7 +28,7 @@ interface ExpectedPost {
 interface PostsData {
   testPostId: number;
   targetUserId: number;
-  allPostsExpectedCount: number;
+  allPostsExpectedTotalCount: number;
   expectedPost: ExpectedPost;
   newPost: NewPost;
   replacePost: ReplacePost;
@@ -61,6 +61,26 @@ Then("the ID in the response should be {int}", (expectedID: number) => {
     expect(lastResponse.body.id).to.eq(expectedID);
   });
 });
+
+When("I fetch all posts", () => {
+  PostService.getAllPosts().then((response) => {
+    cy.wrap(response).as("lastResponse");
+  });
+});
+
+Then(
+  "I should receive a list of posts matching the expected total count",
+  () => {
+    cy.get("@lastResponse").then((lastResponse: any) => {
+      cy.get("@postsData").then((postsData: any) => {
+        const { allPostsExpectedTotalCount } = postsData as PostsData;
+        expect(lastResponse.body)
+          .to.be.an("array")
+          .with.lengthOf(allPostsExpectedTotalCount);
+      });
+    });
+  },
+);
 
 When("I fetch the target post", () => {
   cy.get("@postsData").then((postsData: any) => {

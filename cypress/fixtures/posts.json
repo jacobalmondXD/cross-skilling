@@ -2,6 +2,7 @@
   "testPostId": 1,
   "targetUserId": 1,
   "allPostsExpectedCount": 10,
+  "allPostsExpectedTotalCount": 100,
   "expectedPost": {
     "id": 1,
     "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",

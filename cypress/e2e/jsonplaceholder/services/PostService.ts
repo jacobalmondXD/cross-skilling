@@ -46,6 +46,13 @@ class PostService {
     });
   }
 
+  getAllPosts() {
+    return cy.request({
+      method: "GET",
+      url: `${this.baseUrl}/posts`,
+    });
+  }
+
   getPostById(postId: number) {
     return cy.request({
       method: "GET",

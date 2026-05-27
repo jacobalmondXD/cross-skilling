@@ -9,6 +9,11 @@ Scenario: Create a new post (POST)
     Then the response status should be 201
     And the ID in the response should be 101
 
+Scenario: Fetch all posts (GET)
+    When I fetch all posts
+    Then the response status should be 200
+    And I should receive a list of posts matching the expected total count
+
 Scenario: Fetch a post by ID (GET)
     When I fetch the target post
     Then the response status should be 200
