@@ -69,6 +69,13 @@ class PostService {
       },
     });
   }
+
+  getCommentsByPostId(postId: number) {
+    return cy.request({
+      method: "GET",
+      url: `${this.baseUrl}/posts/${postId}/comments`,
+    });
+  }
 }
 
 export default new PostService();

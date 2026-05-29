@@ -24,6 +24,12 @@ Scenario: Fetch filtered data (GET)
     Then I should receive the expected number of posts
     And every post should belong to the target user
 
+Scenario: Fetch nested resources (GET)
+    When I fetch the target post with embedded comments
+    Then the response status should be 200
+    And every item in the response should have a post ID matching the one specified
+    And every item in the response should have a name and email
+
 Scenario: Replace a post (PUT)
     When I replace the test post with replacement data
     Then the response status should be 200

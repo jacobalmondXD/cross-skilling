@@ -28,6 +28,7 @@ interface ExpectedPost {
 interface PostsData {
   testPostId: number;
   targetUserId: number;
+  allPostsExpectedCount: number;
   allPostsExpectedTotalCount: number;
   expectedPost: ExpectedPost;
   newPost: NewPost;
@@ -131,6 +132,43 @@ Then("every post should belong to the target user", () => {
       const { targetUserId } = postsData as PostsData;
       lastResponse.body.forEach((post: { userId: number }) => {
         expect(post.userId).to.eq(targetUserId);
+      });
+    });
+  });
+});
+
+When("I fetch the target post with embedded comments", () => {
+  cy.get("@postsData").then((postsData: any) => {
+    const { testPostId } = postsData as PostsData;
+    PostService.getCommentsByPostId(testPostId).then((response) => {
+      cy.wrap(response).as("lastResponse");
+    });
+  });
+});
+
+Then(
+  "every item in the response should have a post ID matching the one specified",
+  () => {
+    cy.get("@lastResponse").then((lastResponse: any) => {
+      cy.get("@postsData").then((postsData: any) => {
+        const { testPostId } = postsData as PostsData;
+        expect(lastResponse.body).to.be.an("array").with.length.greaterThan(0);
+        lastResponse.body.forEach((comment: { postId: number }) => {
+          expect(comment.postId).to.eq(testPostId);
+        });
+      });
+    });
+  },
+);
+
+Then("every item in the response should have a name and email", () => {
+  cy.get("@lastResponse").then((lastResponse: any) => {
+    cy.get("@postsData").then((postsData: any) => {
+      const { testPostId } = postsData as PostsData;
+      expect(lastResponse.body).to.be.an("array").with.length.greaterThan(0);
+      lastResponse.body.forEach((comment: { name: string; email: string }) => {
+        expect(comment).to.have.property("name");
+        expect(comment).to.have.property("email");
       });
     });
   });
