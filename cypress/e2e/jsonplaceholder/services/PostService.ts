@@ -3,7 +3,9 @@
  * This is intended to follow the Page Object Model pattern used in Focus 2
  */
 class PostService {
-  private baseUrl = "https://jsonplaceholder.typicode.com";
+  private get baseUrl(): string {
+    return Cypress.env("apiBaseUrl");
+  }
 
   createPost(title: string, body: string, userId: number) {
     return cy.request({
