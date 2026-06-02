@@ -1,13 +1,12 @@
-import { When, Then, Before } from "@badeball/cypress-cucumber-preprocessor";
+import {
+  Given,
+  When,
+  Then,
+  Before,
+} from "@badeball/cypress-cucumber-preprocessor";
 import PostService from "../services/PostService";
 
-interface NewPost {
-  title: string;
-  body: string;
-  userId: number;
-}
-
-interface ReplacePost {
+interface Post {
   title: string;
   body: string;
   userId: number;
@@ -25,14 +24,20 @@ interface ExpectedPost {
   userId: number;
 }
 
+interface CommentItem {
+  postId: number;
+  name: string;
+  email: string;
+}
+
 interface PostsData {
   testPostId: number;
   targetUserId: number;
   allPostsExpectedCount: number;
   allPostsExpectedTotalCount: number;
   expectedPost: ExpectedPost;
-  newPost: NewPost;
-  replacePost: ReplacePost;
+  newPost: Post;
+  replacePost: Post;
   patchPost: PatchPost;
 }
 
@@ -40,9 +45,16 @@ Before(() => {
   cy.fixture("posts.json").as("postsData");
 });
 
+Given("the test post is available", () => {
+  cy.get<PostsData>("@postsData").then((postsData) => {
+    const { testPostId } = postsData;
+    expect(testPostId).to.exist;
+  });
+});
+
 When("I create a new post", () => {
-  cy.get("@postsData").then((postsData: any) => {
-    const { newPost } = postsData as PostsData;
+  cy.get<PostsData>("@postsData").then((postsData) => {
+    const { newPost } = postsData;
     PostService.createPost(newPost.title, newPost.body, newPost.userId).then(
       (response) => {
         cy.wrap(response).as("lastResponse");
@@ -52,15 +64,17 @@ When("I create a new post", () => {
 });
 
 Then("the response status should be {int}", (statusCode: number) => {
-  cy.get("@lastResponse").then((lastResponse: any) => {
+  cy.get<Cypress.Response<unknown>>("@lastResponse").then((lastResponse) => {
     expect(lastResponse.status).to.eq(statusCode);
   });
 });
 
 Then("the ID in the response should be {int}", (expectedID: number) => {
-  cy.get("@lastResponse").then((lastResponse: any) => {
-    expect(lastResponse.body.id).to.eq(expectedID);
-  });
+  cy.get<Cypress.Response<{ id: number }>>("@lastResponse").then(
+    (lastResponse) => {
+      expect(lastResponse.body.id).to.eq(expectedID);
+    },
+  );
 });
 
 When("I fetch all posts", () => {
@@ -72,20 +86,22 @@ When("I fetch all posts", () => {
 Then(
   "I should receive a list of posts matching the expected total count",
   () => {
-    cy.get("@lastResponse").then((lastResponse: any) => {
-      cy.get("@postsData").then((postsData: any) => {
-        const { allPostsExpectedTotalCount } = postsData as PostsData;
-        expect(lastResponse.body)
-          .to.be.an("array")
-          .with.lengthOf(allPostsExpectedTotalCount);
-      });
-    });
+    cy.get<Cypress.Response<ExpectedPost[]>>("@lastResponse").then(
+      (lastResponse) => {
+        cy.get<PostsData>("@postsData").then((postsData) => {
+          const { allPostsExpectedTotalCount } = postsData;
+          expect(lastResponse.body)
+            .to.be.an("array")
+            .with.lengthOf(allPostsExpectedTotalCount);
+        });
+      },
+    );
   },
 );
 
 When("I fetch the target post", () => {
-  cy.get("@postsData").then((postsData: any) => {
-    const { testPostId } = postsData as PostsData;
+  cy.get<PostsData>("@postsData").then((postsData) => {
+    const { testPostId } = postsData;
     PostService.getPostById(testPostId).then((response) => {
       cy.wrap(response).as("lastResponse");
     });
@@ -93,21 +109,23 @@ When("I fetch the target post", () => {
 });
 
 Then("the response should match the expected post data", () => {
-  cy.get("@lastResponse").then((lastResponse: any) => {
-    cy.get("@postsData").then((postsData: any) => {
-      const { expectedPost } = postsData as PostsData;
-      expect(lastResponse.body).to.deep.include({
-        title: expectedPost.title,
-        body: expectedPost.body,
-        userId: expectedPost.userId,
+  cy.get<Cypress.Response<ExpectedPost>>("@lastResponse").then(
+    (lastResponse) => {
+      cy.get<PostsData>("@postsData").then((postsData) => {
+        const { expectedPost } = postsData;
+        expect(lastResponse.body).to.deep.include({
+          title: expectedPost.title,
+          body: expectedPost.body,
+          userId: expectedPost.userId,
+        });
       });
-    });
-  });
+    },
+  );
 });
 
 When("I fetch all posts for the target user", () => {
-  cy.get("@postsData").then((postsData: any) => {
-    const { targetUserId } = postsData as PostsData;
+  cy.get<PostsData>("@postsData").then((postsData) => {
+    const { targetUserId } = postsData;
     PostService.getPostsByUserId(targetUserId).then((response) => {
       cy.wrap(response).as("lastResponse");
     });
@@ -115,31 +133,34 @@ When("I fetch all posts for the target user", () => {
 });
 
 Then("I should receive the expected number of posts", () => {
-  cy.get("@lastResponse").then((lastResponse: any) => {
-    cy.get("@postsData").then((postsData: any) => {
-      const { allPostsExpectedCount } = postsData as PostsData;
-      expect(lastResponse.status).to.eq(200);
-      expect(lastResponse.body)
-        .to.be.an("array")
-        .with.lengthOf(allPostsExpectedCount);
-    });
-  });
+  cy.get<Cypress.Response<ExpectedPost[]>>("@lastResponse").then(
+    (lastResponse) => {
+      cy.get<PostsData>("@postsData").then((postsData) => {
+        const { allPostsExpectedCount } = postsData;
+        expect(lastResponse.body)
+          .to.be.an("array")
+          .with.lengthOf(allPostsExpectedCount);
+      });
+    },
+  );
 });
 
 Then("every post should belong to the target user", () => {
-  cy.get("@postsData").then((postsData: any) => {
-    cy.get("@lastResponse").then((lastResponse: any) => {
-      const { targetUserId } = postsData as PostsData;
-      lastResponse.body.forEach((post: { userId: number }) => {
-        expect(post.userId).to.eq(targetUserId);
-      });
-    });
+  cy.get<PostsData>("@postsData").then((postsData) => {
+    cy.get<Cypress.Response<ExpectedPost[]>>("@lastResponse").then(
+      (lastResponse) => {
+        const { targetUserId } = postsData;
+        lastResponse.body.forEach((post) => {
+          expect(post.userId).to.eq(targetUserId);
+        });
+      },
+    );
   });
 });
 
 When("I fetch the target post with embedded comments", () => {
-  cy.get("@postsData").then((postsData: any) => {
-    const { testPostId } = postsData as PostsData;
+  cy.get<PostsData>("@postsData").then((postsData) => {
+    const { testPostId } = postsData;
     PostService.getCommentsByPostId(testPostId).then((response) => {
       cy.wrap(response).as("lastResponse");
     });
@@ -149,34 +170,37 @@ When("I fetch the target post with embedded comments", () => {
 Then(
   "every item in the response should have a post ID matching the one specified",
   () => {
-    cy.get("@lastResponse").then((lastResponse: any) => {
-      cy.get("@postsData").then((postsData: any) => {
-        const { testPostId } = postsData as PostsData;
-        expect(lastResponse.body).to.be.an("array").with.length.greaterThan(0);
-        lastResponse.body.forEach((comment: { postId: number }) => {
-          expect(comment.postId).to.eq(testPostId);
+    cy.get<Cypress.Response<CommentItem[]>>("@lastResponse").then(
+      (lastResponse) => {
+        cy.get<PostsData>("@postsData").then((postsData) => {
+          const { testPostId } = postsData;
+          expect(lastResponse.body)
+            .to.be.an("array")
+            .with.length.greaterThan(0);
+          lastResponse.body.forEach((comment) => {
+            expect(comment.postId).to.eq(testPostId);
+          });
         });
-      });
-    });
+      },
+    );
   },
 );
 
 Then("every item in the response should have a name and email", () => {
-  cy.get("@lastResponse").then((lastResponse: any) => {
-    cy.get("@postsData").then((postsData: any) => {
-      const { testPostId } = postsData as PostsData;
+  cy.get<Cypress.Response<CommentItem[]>>("@lastResponse").then(
+    (lastResponse) => {
       expect(lastResponse.body).to.be.an("array").with.length.greaterThan(0);
-      lastResponse.body.forEach((comment: { name: string; email: string }) => {
+      lastResponse.body.forEach((comment) => {
         expect(comment).to.have.property("name");
         expect(comment).to.have.property("email");
       });
-    });
-  });
+    },
+  );
 });
 
-When("I replace the test post with replacement data", function () {
-  cy.get("@postsData").then((postsData: any) => {
-    const { testPostId, replacePost } = postsData as PostsData;
+When("I replace the test post with replacement data", () => {
+  cy.get<PostsData>("@postsData").then((postsData) => {
+    const { testPostId, replacePost } = postsData;
     PostService.replacePost(
       testPostId,
       replacePost.title,
@@ -188,54 +212,54 @@ When("I replace the test post with replacement data", function () {
   });
 });
 
-Then("the post title should match the replacement data", function () {
-  cy.get("@lastResponse").then((lastResponse: any) => {
-    cy.get("@postsData").then((postsData: any) => {
-      const { replacePost } = postsData as PostsData;
+Then("the post title should match the replacement data", () => {
+  cy.get<Cypress.Response<Post>>("@lastResponse").then((lastResponse) => {
+    cy.get<PostsData>("@postsData").then((postsData) => {
+      const { replacePost } = postsData;
       expect(lastResponse.body).to.have.property("title", replacePost.title);
     });
   });
 });
 
-Then("the post body should match the replacement data", function () {
-  cy.get("@lastResponse").then((lastResponse: any) => {
-    cy.get("@postsData").then((postsData: any) => {
-      const { replacePost } = postsData as PostsData;
+Then("the post body should match the replacement data", () => {
+  cy.get<Cypress.Response<Post>>("@lastResponse").then((lastResponse) => {
+    cy.get<PostsData>("@postsData").then((postsData) => {
+      const { replacePost } = postsData;
       expect(lastResponse.body).to.have.property("body", replacePost.body);
     });
   });
 });
 
-When("I update the test post with patched data", function () {
-  cy.get("@postsData").then((postsData: any) => {
-    const { testPostId, patchPost } = postsData as PostsData;
+When("I update the test post with patched data", () => {
+  cy.get<PostsData>("@postsData").then((postsData) => {
+    const { testPostId, patchPost } = postsData;
     PostService.patchPost(testPostId, patchPost.title).then((response) => {
       cy.wrap(response).as("lastResponse");
     });
   });
 });
 
-Then("the post title should match the patched title", function () {
-  cy.get("@lastResponse").then((lastResponse: any) => {
-    cy.get("@postsData").then((postsData: any) => {
-      const { patchPost } = postsData as PostsData;
+Then("the post title should match the patched title", () => {
+  cy.get<Cypress.Response<PatchPost>>("@lastResponse").then((lastResponse) => {
+    cy.get<PostsData>("@postsData").then((postsData) => {
+      const { patchPost } = postsData;
       expect(lastResponse.body).to.have.property("title", patchPost.title);
     });
   });
 });
 
-Then("the original body should still be present in the response", function () {
-  cy.get("@lastResponse").then((lastResponse: any) => {
-    cy.get("@postsData").then((postsData: any) => {
-      const { patchPost } = postsData as PostsData;
+Then("the original body should still be present in the response", () => {
+  cy.get<Cypress.Response<PatchPost>>("@lastResponse").then((lastResponse) => {
+    cy.get<PostsData>("@postsData").then((postsData) => {
+      const { patchPost } = postsData;
       expect(lastResponse.body).to.have.property("body", patchPost.body);
     });
   });
 });
 
-When("I delete the test post", function () {
-  cy.get("@postsData").then((postsData: any) => {
-    const { testPostId } = postsData as PostsData;
+When("I delete the test post", () => {
+  cy.get<PostsData>("@postsData").then((postsData) => {
+    const { testPostId } = postsData;
     PostService.deletePost(testPostId).then((response) => {
       cy.wrap(response).as("lastResponse");
     });

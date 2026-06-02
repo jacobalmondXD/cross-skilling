@@ -21,6 +21,7 @@ Scenario: Fetch a post by ID (GET)
 
 Scenario: Fetch filtered data (GET)
     When I fetch all posts for the target user
+    Then the response status should be 200
     Then I should receive the expected number of posts
     And every post should belong to the target user
 
@@ -43,5 +44,6 @@ Scenario: Partially update a post (PATCH)
     And the original body should still be present in the response
 
 Scenario: Remove a post (DELETE)
+    Given the test post is available
     When I delete the test post
     Then the response status should be 200
