@@ -47,8 +47,10 @@ Before(() => {
 
 Given("the test post is available", () => {
   cy.get<PostsData>("@postsData").then((postsData) => {
-    const { testPostId } = postsData;
-    expect(testPostId).to.exist;
+    PostService.getPostById(postsData.testPostId).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.id).to.eq(postsData.testPostId);
+    });
   });
 });
 
