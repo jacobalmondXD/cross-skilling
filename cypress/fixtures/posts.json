@@ -1,0 +1,26 @@
+{
+  "testPostId": 1,
+  "targetUserId": 1,
+  "allPostsExpectedCount": 10,
+  "allPostsExpectedTotalCount": 100,
+  "expectedPost": {
+    "id": 1,
+    "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+    "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+    "userId": 1
+  },
+  "newPost": {
+    "title": "Cypress API Testing",
+    "body": "Learning Focus 3",
+    "userId": 1
+  },
+  "replacePost": {
+    "title": "Updating a Post",
+    "body": "This replaces all",
+    "userId": 5
+  },
+  "patchPost": {
+    "title": "Patched Title",
+    "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+  }
+}

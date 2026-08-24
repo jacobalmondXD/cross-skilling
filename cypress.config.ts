@@ -14,6 +14,7 @@ export default defineConfig({
         nonGlobalStepDefinitions: true,
         stepDefinitions: [
           "cypress/e2e/saucedemo/step_definitions/**/*.{js,ts}",
+          "cypress/e2e/jsonplaceholder/step_definitions/**/*.{js,ts}",
         ],
       },
     },
@@ -27,7 +28,7 @@ export default defineConfig({
         "file:preprocessor",
         createBundler({
           plugins: [createEsbuildPlugin(config)],
-        })
+        }),
       );
 
       // Return the updated config
